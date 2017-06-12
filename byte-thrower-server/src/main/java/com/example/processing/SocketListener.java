@@ -14,6 +14,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 /**
  * Created by Sergey Shushkov on 11.06.2017.
@@ -26,9 +29,13 @@ public class SocketListener {
 
     private int port;
 
+    private ExecutorService threadPoolExecutor;
+
     public SocketListener(@Value("${port}") int port, @Autowired MessageProcessor messageProcessor) {
         this.port = port;
         this.messageProcessor = messageProcessor;
+
+        threadPoolExecutor = Executors.newFixedThreadPool(25);
     }
 
 
@@ -44,36 +51,42 @@ public class SocketListener {
             while (true) {
                 final Socket clientSocket = serverSocket.accept();
 
-                Thread  thread = new Thread(() -> {
-                    try {
-                        logger.debug("incoming connection");
-
-                        ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
-
-                        Message message = (Message) in.readObject();
-
-                        logger.debug("Read message: " + message);
-
-                        Answer answer = messageProcessor.proccessMessage(message);
-
-                        ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-
-                        out.writeObject(answer);
-
-                        out.flush();
-
-                    } catch (IOException | ClassNotFoundException e) {
-                        logger.error("", e);
-                    } finally {
+                try {
+                    threadPoolExecutor.execute(() -> {
                         try {
-                            clientSocket.close();
-                        } catch (IOException e) {
-                            logger.error(" can't close client socket", e);
-                        }
-                    }
-                });
+                            logger.debug("incoming connection");
 
-                thread.start();
+                            ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+
+                            Message message = (Message) in.readObject();
+
+                            logger.debug("Read message: " + message);
+
+                            Answer answer = messageProcessor.proccessMessage(message);
+
+                            ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+
+                            out.writeObject(answer);
+
+                            out.flush();
+
+                        } catch (IOException | ClassNotFoundException e) {
+                            logger.error("", e);
+                        } finally {
+                            try {
+                                if(!clientSocket.isClosed())
+                                    clientSocket.close();
+                            } catch (IOException e) {
+                                logger.error(" can't close client socket", e);
+                            }
+                        }
+                    });
+                } catch (RejectedExecutionException e){
+                    logger.error(" can't close client socket", e);
+                    if(!clientSocket.isClosed())
+                        clientSocket.close();
+                }
+
             }
         } catch (IOException e) {
             e.printStackTrace();

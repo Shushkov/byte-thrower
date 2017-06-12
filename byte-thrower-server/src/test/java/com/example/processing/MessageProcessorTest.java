@@ -28,7 +28,7 @@ public class MessageProcessorTest extends Assert {
         Message message = new Message("SumService", "sum", new Object[]{4, 2}, 1, new Class[]{Integer.class, Integer.class});
         Answer answer = messageProcessor.proccessMessage(message);
 
-        Assert.assertNotNull(answer);
+        assertNotNull(answer);
         assertEquals(answer.getResult(), 6);
 
     }
@@ -37,7 +37,7 @@ public class MessageProcessorTest extends Assert {
     public void nullMessageTest() {
         Answer answer = messageProcessor.proccessMessage(null);
 
-        Assert.assertNotNull(answer);
+        assertNotNull(answer);
         assertTrue(answer.getResult() instanceof Error);
 
     }
@@ -47,7 +47,7 @@ public class MessageProcessorTest extends Assert {
         Message message = new Message(null, "brokenSum", null, 1, null);
         Answer answer = messageProcessor.proccessMessage(message);
 
-        Assert.assertNotNull(answer);
+        assertNotNull(answer);
         assertTrue(answer.getResult() instanceof Error);
 
     }
@@ -57,7 +57,7 @@ public class MessageProcessorTest extends Assert {
         Message message = new Message("SumService", null, null, 1, null);
         Answer answer = messageProcessor.proccessMessage(message);
 
-        Assert.assertNotNull(answer);
+        assertNotNull(answer);
         assertTrue(answer.getResult() instanceof Error);
 
     }
@@ -67,7 +67,7 @@ public class MessageProcessorTest extends Assert {
         Message message = new Message("test_service", "brokenSum", null, 1, null);
         Answer answer = messageProcessor.proccessMessage(message);
 
-        Assert.assertNotNull(answer);
+        assertNotNull(answer);
         assertTrue(answer.getResult() instanceof Error);
     }
 
@@ -77,7 +77,7 @@ public class MessageProcessorTest extends Assert {
         Message message = new Message("SumService", "brokenSum", null, 1, null);
         Answer answer = messageProcessor.proccessMessage(message);
 
-        Assert.assertNotNull(answer);
+        assertNotNull(answer);
         assertTrue(answer.getResult() instanceof Error);
 
     }
