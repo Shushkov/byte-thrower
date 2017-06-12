@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 /**
  * Created by Sergey Shushkov on 10.06.2017.
  * ClearScale Java Team
+ *
+ * Service map passed parameters to Message {@link Message} class
+ * and send it via Request {@link Request}
+ *
  */
 @Service
 public class RequestService implements IRequsetService{
@@ -26,6 +30,12 @@ public class RequestService implements IRequsetService{
 
     private static volatile int messageId = 1;
 
+    /**
+     * @param serviceName - target service label name
+     * @param methodName - target service method name
+     * @param argType - massive of arguments class for service method
+     * @param args - arguments for target method
+     **/
     @Override
     public void sendMessage(String serviceName, String methodName, Class[] argType, Object... args) {
 

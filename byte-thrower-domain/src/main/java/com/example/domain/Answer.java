@@ -5,6 +5,8 @@ import java.io.Serializable;
 /**
  * Created by Sergey Shushkov on 10.06.2017.
  * ClearScale Java Team
+ *
+ * Class present outgoing message
  */
 public class Answer implements Serializable{
     private int id;

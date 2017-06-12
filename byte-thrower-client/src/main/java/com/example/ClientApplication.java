@@ -11,6 +11,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 /**
  * Created by Sergey Shushkov on 10.06.2017.
  * ClearScale Java Team
+ *
+ * Spring Boot start application
  */
 @SpringBootApplication(scanBasePackages = "com.example")
 public class ClientApplication {

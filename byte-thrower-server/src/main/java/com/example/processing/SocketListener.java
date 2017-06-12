@@ -21,6 +21,8 @@ import java.util.concurrent.RejectedExecutionException;
 /**
  * Created by Sergey Shushkov on 11.06.2017.
  * ClearScale Java Team
+ *
+ * Listener component to listen incoming message, pass it to message processor component {@link MessageProcessor}
  */
 @Component
 public class SocketListener {

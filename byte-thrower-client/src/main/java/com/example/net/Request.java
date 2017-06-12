@@ -12,6 +12,8 @@ import java.net.Socket;
 /**
  * Created by Sergey Shushkov on 10.06.2017.
  * ClearScale Java Team
+ *
+ * Runnable class provide ability to send @com.example.Message class over socket connection to target host
  */
 public class Request implements Runnable {
 

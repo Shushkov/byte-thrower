@@ -6,6 +6,8 @@ import java.util.Arrays;
 /**
  * Created by Sergey Shushkov on 10.06.2017.
  * ClearScale Java Team
+ *
+ * class present message for protocol between  client and server
  */
 public class Message implements Serializable{
     private String serviceName;

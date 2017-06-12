@@ -22,6 +22,8 @@ import java.util.Properties;
 /**
  * Created by Sergey Shushkov on 10.06.2017.
  * ClearScale Java Team
+ *
+ * service with determine needed service and its method by given Message {@link Message}
  */
 @Component
 public class MessageProcessor {
@@ -71,6 +73,11 @@ public class MessageProcessor {
         logger.debug(classHashMap.toString());
     }
 
+    /**
+     *
+     * determine needed service and its method by given Message {@link Message}
+     * and run it with given parameters
+     * */
     public Answer proccessMessage(Message message){
 
         if (Objects.isNull(message) || Objects.isNull(message.getMethodName()) || Objects.isNull(message.getServiceName()))
